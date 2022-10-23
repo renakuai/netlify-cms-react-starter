@@ -6,3 +6,5 @@
 [build]
   publish = "build"
   command = "npm run build"
+  ci="npm run build"
+  
