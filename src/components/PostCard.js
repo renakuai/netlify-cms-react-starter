@@ -7,7 +7,7 @@ import './PostCard.css'
 
 const PostCard = ({ postItem, className = '', ...props }) => (
   <Link
-    to={slugify(`/blog/${postItem.title}/`)}
+    to={slugify(`/category/${postItem.categories}/${postItem.title}/`)}
     className={`PostCard ${className}`}
     {...props}
   >

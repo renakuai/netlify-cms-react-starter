@@ -4,11 +4,8 @@ import Helmet from 'react-helmet'
 
 import ScrollToTop from './components/ScrollToTop'
 import Meta from './components/Meta'
-import Home from './views/Home'
-import About from './views/About'
 import Blog from './views/Blog'
 import SinglePost from './views/SinglePost'
-import Contact from './views/Contact'
 import NoMatch from './views/NoMatch'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
@@ -41,7 +38,7 @@ class App extends Component {
 
   getDocuments = collection => this.state.data[collection] || []
 
-  render () {
+  render() {
     const globalSettings = this.getDocument('settings', 'global')
     const {
       siteTitle,
@@ -90,26 +87,6 @@ class App extends Component {
             <RouteWithMeta
               path='/'
               exact
-              component={Home}
-              description={siteDescription}
-              fields={this.getDocument('pages', 'home')}
-            />
-            <RouteWithMeta
-              path='/about/'
-              exact
-              component={About}
-              fields={this.getDocument('pages', 'about')}
-            />
-            <RouteWithMeta
-              path='/contact/'
-              exact
-              component={Contact}
-              fields={this.getDocument('pages', 'contact')}
-              siteTitle={siteTitle}
-            />
-            <RouteWithMeta
-              path='/blog/'
-              exact
               component={Blog}
               fields={this.getDocument('pages', 'blog')}
               posts={posts}
@@ -117,7 +94,7 @@ class App extends Component {
             />
 
             {posts.map((post, index) => {
-              const path = slugify(`/blog/${post.title}`)
+              const path = slugify(`/category/${post.categories}/${post.title}`)
               const nextPost = posts[index - 1]
               const prevPost = posts[index + 1]
               return (
@@ -127,15 +104,15 @@ class App extends Component {
                   exact
                   component={SinglePost}
                   fields={post}
-                  nextPostURL={nextPost && slugify(`/blog/${nextPost.title}/`)}
-                  prevPostURL={prevPost && slugify(`/blog/${prevPost.title}/`)}
+                  nextPostURL={nextPost && slugify(`/category/${post.categories}/${nextPost.title}/`)}
+                  prevPostURL={prevPost && slugify(`/category/${post.categories}/${prevPost.title}/`)}
                 />
               )
             })}
 
             {postCategories.map(postCategory => {
               const slug = slugify(postCategory.title)
-              const path = slugify(`/blog/category/${slug}`)
+              const path = slugify(`/category/${slug}`)
               const categoryPosts = posts.filter(post =>
                 documentHasTerm(post, 'categories', slug)
               )
